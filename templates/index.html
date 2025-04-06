@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FTP Browser</title>
+</head>
+<body>
+    <h2>📁 Browsing: /{{ current_path }}</h2>
+
+    <ul>
+        {% for item in items %}
+            <li>
+                {% if item.is_dir %}
+                    📂 <a href="{{ url_for('browse', subpath=(current_path ~ '/' ~ item.name) | trim('/')) }}">{{ item.name }}</a>
+                {% else %}
+                    📄 {{ item.name }} —
+                    <a href="{{ url_for('download', file_path=(current_path ~ '/' ~ item.name) | trim('/')) }}">Download</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if parent_path %}
+        <p><a href="{{ url_for('browse', subpath=parent_path) }}">⬅️ Back</a></p>
+    {% endif %}
+</body>
+</html>
